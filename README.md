@@ -33,7 +33,7 @@ Här kan du välja om du ska ha en master-nod och flera worker noder. Vi brukar 
 5. Lägg till de add-ons du vill använda:
 
     ```bash
-    microk8s enable dns ingress helm3
+    microk8s enable dns ingress helm3 registry storage
     ```
 
 6. Lägg till externa IP som IP.100 i denna så att du kan nå klustret utifrån utan varningar. Upprepa för varje nod.
@@ -81,3 +81,6 @@ kubectl apply -f k8s/letsencrypt.yaml
 
 ## Testa allt tillsammans
 
+```bash
+kubectl apply -f k8s/web.yaml
+```

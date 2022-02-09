@@ -1,10 +1,10 @@
 apiVersion: skaffold/v2beta23
 kind: Config
 metadata:
-  name: iteam-next-site
+  name: hello-world
 build:
   artifacts:
-    - image: iteam-next-site
+    - image: hello-world
       docker:
         dockerfile: Dockerfile
 deploy:
