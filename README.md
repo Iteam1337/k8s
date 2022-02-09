@@ -5,14 +5,12 @@
 Det här steget kan man göra med en anann leverantör
 
 1. Beställ konto på Safespring. Hälsa från oss så blir vi glada.
-2. Launch Instance - Välj senaste Ubuntu och en nod med lokal lagring, t ex lb.large.1d. Skapa tre stycken.
-3. Lägg till public network
-4. Skapa en ny security group som du döper tex till 'public-ports' med följande portar öppna
-    22 - SSH
-    16443 - För att nå kubernetes utifrån.
-    443 - HTTPS
-    80 - HTTP
-5. Gå in på varje instans och Edit security group. Lägg till din nyskapade säkerhetsgrupp. (Gör du steg 4 innan steg 2 så kan du välja säkerhetsgruppen direkt)
+2. Skapa en ny security group som du döper tex till 'public' med följande portar öppna:
+
+![image](https://user-images.githubusercontent.com/395843/153294252-9f639c32-6c53-4438-8324-170b49b65bca.png)
+
+3. Launch Instance - Välj Ubuntu 20.04 och en nod med lokal lagring, t ex lb.large.1d. Skapa tre stycken och glöm inte att att välja din security group.
+![image](https://user-images.githubusercontent.com/395843/153294835-3be4f2e7-67f8-4188-88c1-1d2f5a089152.png)
 
 ## Installera Microk8s
 
