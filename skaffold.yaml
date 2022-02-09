@@ -7,6 +7,12 @@ build:
     - image: hello-world
       docker:
         dockerfile: Dockerfile
+
+    # to build from a M1 mac, change from docker build to this:
+    # TODO: find a better way.
+    # custom:
+    #   buildCommand: docker buildx build  --platform linux/amd64 --tag $IMAGE  --push $BUILD_CONTEXT
+
 deploy:
   kubectl:
     manifests:
