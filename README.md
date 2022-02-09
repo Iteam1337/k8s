@@ -24,8 +24,13 @@ Det här steget kan man göra med en anann leverantör
     newgrp microk8s
     ```
 
-4. Från en av noderna: microk8s add-node
-Nu får du instruktioner att köra på en av de andra noderna. T ex microk8s join xxx:25000
+4. Från en av noderna: 
+
+    ```bash
+    microk8s add-node
+    ```
+
+Nu får du instruktioner att köra på en av de andra noderna. T ex `microk8s join xxx:25000`
 Här kan du välja om du ska ha en master-nod och flera worker noder. Vi brukar välja att varje nod är både worker och master, välj då översta alternativet.
 
 5. Lägg till de add-ons du vill använda:
