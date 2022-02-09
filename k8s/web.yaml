@@ -2,10 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web
-  namespace: iteam-se
 spec:
   ports:
-    - port: 3000
+    - port: 80
   type: LoadBalancer
   selector:
     app: web
@@ -14,7 +13,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
-  namespace: iteam-se
 spec:
   selector:
     matchLabels:
@@ -26,15 +24,14 @@ spec:
     spec:
       containers:
         - name: web
-          image: web
+          image: nginx
           ports:
-            - containerPort: 3000
+            - containerPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web
-  namespace: iteam-se
   annotations:
     kubernetes.io/ingress.class: 'public'
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
@@ -46,10 +43,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - iteam.se
+        - iteam.pub
       secretName: web-secret-tls
   rules:
-    - host: iteam.se
+    - host: iteam.pub
       http:
         paths:
           - pathType: Prefix
@@ -58,4 +55,4 @@ spec:
               service:
                 name: web
                 port:
-                  number: 3000
+                  number: 80
