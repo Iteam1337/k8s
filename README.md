@@ -59,6 +59,16 @@ Här kan du välja om du ska ha en master-nod och flera worker noder. Vi brukar 
     ```bash
     kubectl get nodes
     ```
+    
+9. Lägg till nodernas ip i /etc/hosts
+
+Av någon anledning så får man 'dns host resolve' fel när man försöker köra `kubectl logs` på en nod som inte är den du ansluter till. Workaround är att lägga till nodernas IP i /etc/hosts - på den maskinen som du ansluter dig till men enklast är att göra det på samtliga noder.
+
+    ```bash
+    xx.yy.zz microk8s-1
+    xx.yy.z2 microk8s-2
+    xx.yy.z3 microk8s-3
+    ```
 
 ## Longhorn distribuerad lagring
 
