@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: web
   name: web
 spec:
   ports:
@@ -13,6 +14,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
+  namespace: web
 spec:
   selector:
     matchLabels:
@@ -24,7 +26,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: hello-world
+          image: nginx
           ports:
             - containerPort: 80
 ---
@@ -32,6 +34,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: web
+  namespace: web
   annotations:
     kubernetes.io/ingress.class: 'public'
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'

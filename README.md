@@ -60,14 +60,6 @@ Här kan du välja om du ska ha en master-nod och flera worker noder. Vi brukar 
     kubectl get nodes
     ```
 
-## Longhorn distribuerad lagring
-
-För att köra något som kräver lagring på noderna så behöver du först installera en distribuerad lagring. Vi använder ofta Longhorn men det finns olika. Longhorn har inbyggd backup till S3 vilket är väldigt praktiskt. Så här installerar du Longhorn:
-
-```bash
-helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --set csi.kubeletRootDir=/var/snap/microk8s/common/var/lib/kubelet --set defaultSettings.defaultDataPath=/data
-```
-
 ## Cert manager
 
 För att aktivera automatisk TLS i ditt kluster så kör du cert-manager. Så här installerar du cert-manager:
@@ -76,7 +68,7 @@ För att aktivera automatisk TLS i ditt kluster så kör du cert-manager. Så h�
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.1/cert-manager.yaml
 ```
 
-Redigera emailadress i [k8s/letsencrypt.yaml](k8s/letsencrypt.yaml)
+OBS! Redigera emailadress i [k8s/letsencrypt.yaml](k8s/letsencrypt.yaml)
 
 ```bash
 kubectl apply -f k8s/letsencrypt.yaml
@@ -87,3 +79,22 @@ kubectl apply -f k8s/letsencrypt.yaml
 ```bash
 kubectl apply -f k8s/web.yaml
 ```
+
+
+## Longhorn distribuerad lagring
+
+För att köra något som kräver lagring på noderna så behöver du först installera en distribuerad lagring. Vi använder ofta Longhorn men det finns olika. Longhorn har inbyggd backup till S3 vilket är väldigt praktiskt. Så här installerar du Longhorn:
+
+```bash
+helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace --set csi.kubeletRootDir=/var/snap/microk8s/common/var/lib/kubelet --set defaultSettings.defaultDataPath=/data
+```
+
+## Skaffold
+
+
+
+## IPv6
+
+För att aktivera IPv6 så behöver man fortfarande pilla en del med interna filer på klustret men följer man den här guiden (hoppa över brandväggsreglerna) så fungerar det:
+https://discuss.kubernetes.io/t/microk8s-ipv6-dualstack-how-to/14507
+
