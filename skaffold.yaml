@@ -1,19 +1,41 @@
 apiVersion: skaffold/v2beta23
 kind: Config
 metadata:
-  name: hello-world
+  name: default-cluster
 build:
   artifacts:
     - image: hello-world
       docker:
         dockerfile: Dockerfile
 
-    # to build from a M1 mac, change from docker build to this:
-    # TODO: find a better way.
-    # custom:
-    #   buildCommand: docker buildx build  --platform linux/amd64 --tag $IMAGE  --push $BUILD_CONTEXT
-
+    # to build from a M1 mac, 
+    # add this to your .zshrc
+    # export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    
 deploy:
   kubectl:
     manifests:
+      - https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml
+      - k8s/letsencrypt.yaml
       - k8s/web.yaml
+  helm:
+      releases:
+        ## don't forget to uninstall traefik and traefik-crd in kube-system namespace if you have them
+        - name: ingress-nginx
+          remoteChart: ingress-nginx
+          repo: https://kubernetes.github.io/ingress-nginx
+          createNamespace: true
+          namespace: ingress-nginx
+        - name: cert-manager
+          remoteChart: cert-manager
+          repo: https://charts.jetstack.io
+          setValues:
+            installCRDs: true
+          createNamespace: true
+          namespace: cert-manager
+        - name: longhorn
+          remoteChart: longhorn
+          repo: https://charts.longhorn.io
+          createNamespace: true
+          namespace: longhorn-system
+        

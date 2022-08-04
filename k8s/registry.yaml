@@ -31,22 +31,22 @@ spec:
         app: docker-registry
     spec:
       containers:
-      - name: docker-registry
-        image: registry
-        ports:
-        - containerPort: 5000
-          protocol: TCP
-        volumeMounts:
-        - name: storage
-          mountPath: /var/lib/registry
-        env:
-        - name: REGISTRY_HTTP_ADDR
-          value: :5000
-        - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
-          value: /var/lib/registry
+        - name: docker-registry
+          image: registry
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: /var/lib/registry
+          env:
+            - name: REGISTRY_HTTP_ADDR
+              value: :5000
+            - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+              value: /var/lib/registry
       volumes:
-      - name: storage
-        emptyDir: {} # TODO -make this more permanent later
+        - name: storage
+          emptyDir: {} # TODO -make this more permanent later
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -54,7 +54,7 @@ metadata:
   name: docker-registry
   namespace: container-registry
   annotations:
-    kubernetes.io/ingress.class: "ingress"
+    kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
     nginx.ingress.kubernetes.io/http2-push-preload: "true"
@@ -63,17 +63,17 @@ metadata:
 
 spec:
   tls:
-  - hosts:
-    - registry.iteam.pub
-    secretName: registry-secret-tls
+    - hosts:
+        - registry.iteam.pub
+      secretName: registry-secret-tls
   rules:
-  - host: registry.iteam.pub
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: docker-registry
-            port:
-              number: 5000
+    - host: registry.iteam.pub
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: docker-registry
+                port:
+                  number: 5000
