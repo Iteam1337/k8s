@@ -1,4 +1,4 @@
-apiVersion: skaffold/v2beta23
+apiVersion: skaffold/v4beta2
 kind: Config
 metadata:
   name: default-cluster
@@ -13,11 +13,6 @@ build:
     # export DOCKER_DEFAULT_PLATFORM=linux/amd64
     
 deploy:
-  kubectl:
-    manifests:
-      - https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml
-      - k8s/letsencrypt.yaml
-      - k8s/web.yaml
   helm:
       releases:
         ## don't forget to uninstall traefik and traefik-crd in kube-system namespace if you have them
@@ -38,4 +33,9 @@ deploy:
           repo: https://charts.longhorn.io
           createNamespace: true
           namespace: longhorn-system
-        
+
+manifests:
+  rawYaml:
+    - https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml
+    - k8s/letsencrypt.yaml
+    - k8s/web.yaml
